@@ -4,6 +4,9 @@ const {
   connectProducer,
   publishOrderCreated,
 } = require("./kafka/producer");
+const {
+  isValidProductId,
+} = require("../../../shared/kafka/message-keys");
 
 const app = express();
 
@@ -29,6 +32,12 @@ app.get('/api/order', (req, res) => {
 
 app.post("/api/order", async (req, res) => {
   try {
+    if (!isValidProductId(req.body.productId)) {
+      return res.status(400).json({
+        message: "productId is required to create an order",
+      });
+    }
+
     const order = {
       id: Date.now(),
       productId: req.body.productId,
