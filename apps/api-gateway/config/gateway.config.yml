@@ -1,0 +1,72 @@
+http:
+  port: 8080
+
+admin:
+  port: 9876
+  host: localhost
+
+apiEndpoints:
+  users:
+    host: "*"
+    paths:
+      - /api/users
+      - /api/users/*
+
+  products:
+    host: "*"
+    paths:
+      - /api/products
+      - /api/products/*
+
+  order:
+    host: "*"
+    paths:
+      - /api/order
+      - /api/order/*
+
+serviceEndpoints:
+  userService:
+    url: "http://localhost:3001"
+
+  productService:
+    url: "http://localhost:3002"
+
+  orderService:
+    url: "http://localhost:3003"
+
+policies:
+  - cors
+  - log
+  - proxy
+  - rate-limit
+
+pipelines:
+  usersPipeline:
+    apiEndpoints:
+      - users
+
+    policies:
+      - proxy:
+          - action:
+              serviceEndpoint: userService
+              changeOrigin: true
+
+  productsPipeline:
+    apiEndpoints:
+      - products
+
+    policies:
+      - proxy:
+          - action:
+              serviceEndpoint: productService
+              changeOrigin: true
+
+  ordersPipeline:
+    apiEndpoints:
+      - order
+
+    policies:
+      - proxy:
+          - action:
+              serviceEndpoint: orderService
+              changeOrigin: true

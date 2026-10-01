@@ -1,0 +1,14 @@
+{
+  "name": "api-gateway",
+  "description": "Express Gateway Instance Bootstraped from Command Line",
+  "repository": {},
+  "license": "UNLICENSED",
+  "version": "1.0.0",
+  "main": "server.js",
+  "dependencies": {
+    "express-gateway": "^1.16.11"
+  },
+    "scripts": { 
+    "start": "node --watch server.js"
+  }
+}
